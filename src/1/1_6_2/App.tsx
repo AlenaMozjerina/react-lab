@@ -12,7 +12,7 @@
 function Item({ name, importance }: { name: string, importance: number }) {
   return (
     <li className="item">
-      {name}
+      {name} {importance > 0 && <i> (Важность: {importance})</i>}
     </li>
   );
 }
