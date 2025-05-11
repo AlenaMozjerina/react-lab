@@ -12,20 +12,23 @@ export interface Story {
 
 const stories: Story[] = [];
 export default function Wrapper(){
-  return <StoryTray stories={stories}/>;
+  return <StoryTray stories={stories} />;
 }
 
  function StoryTray({ stories }: { stories: Story[] }) {
-  stories.push({
+  const allStories = [
+    ...stories,
+    {
       id: 'create',
-      label: 'Create Story',
-  });
+      label: 'Create Story'
+    }
+  ];
 
   return (
-      <ul>
-          {stories.map((story) => (
-              <li key={story.id}>{story.label}</li>
-          ))}
-      </ul>
+    <ul>
+      {allStories.map((story) => (
+        <li key={story.id}>{story.label}</li>
+      ))}
+    </ul>
   );
 }
