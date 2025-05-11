@@ -4,7 +4,7 @@
   Вспомните, как react отличает компоненты от обычных HTML-тегов.
 */
 
-function profile() {
+function Profile() {
     return (
       <img
         src="AlanHart.jpg"
@@ -17,9 +17,9 @@ function profile() {
     return (
       <section>
         <h1>Amazing scientists</h1>
-        <profile />
-        <profile />
-        <profile />
+        <Profile />
+        <Profile />
+        <Profile />
       </section>
     );
   }
