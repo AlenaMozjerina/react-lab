@@ -10,25 +10,25 @@
 import Profile from './Profile';
 
 export type Person = {
-    imageId: string;
-    name: string;
+  imageId: string;
+  name: string;
 };
 
 export default function App() {
-    return (
-        <>
-            <Profile
-                person={{
-                    imageId: 'lrWQx8l',
-                    name: 'Subrahmanyan Chandrasekhar',
-                }}
-            />
-            <Profile
-                person={{
-                    imageId: 'MK3eW3A',
-                    name: 'Creola Katherine Johnson',
-                }}
-            />
-        </>
-    );
+  return (
+    <>
+      <Profile
+        person={{
+          imageId: 'lrWQx8l',
+          name: 'Subrahmanyan Chandrasekhar'
+        }}
+      />
+      <Profile
+        person={{
+          imageId: 'MK3eW3A',
+          name: 'Creola Katherine Johnson'
+        }}
+      />
+    </>
+  );
 }
