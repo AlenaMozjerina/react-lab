@@ -12,8 +12,13 @@ function ColorSwitch({
 }: {
   onChangeColor: () => void
 }) {
+  function handleClick(event: React.MouseEvent) {
+    event.stopPropagation(); 
+    onChangeColor();
+  }
+
   return (
-    <button>
+    <button onClick={handleClick}>
       Change color
     </button>
   );
