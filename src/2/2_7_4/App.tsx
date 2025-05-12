@@ -3,7 +3,6 @@
     В этом примере все обработчики событий в App.js используют мутацию. В результате редактирование и удаление todos не работает. Перепишите handleAddTodo, handleChangeTodo и handleDeleteTodo с помощью Immer
 */
 
-import { useState } from 'react';
 import { useImmer } from 'use-immer';
 import AddTodo from './AddTodo';
 import TaskList from './TaskList';
@@ -22,29 +21,35 @@ const initialTodos = [
 ];
 
 export default function TaskApp() {
-    const [todos, setTodos] = useState(initialTodos);
+    const [todos, setTodos] = useImmer(initialTodos);
 
     function handleAddTodo(title: string) {
-        todos.push({
-            id: nextId++,
-            title: title,
-            done: false,
+        setTodos(draft => {
+            draft.push({
+                id: nextId++,
+                title,
+                done: false,
+            });
         });
     }
 
     function handleChangeTodo(nextTodo: Todo) {
-        const todo = todos.find(
-            (t) => t.id === nextTodo.id
-        )!!;
-        todo.title = nextTodo.title;
-        todo.done = nextTodo.done;
+        setTodos(draft => {
+            const todo = draft.find(t => t.id === nextTodo.id);
+            if (todo) {
+                todo.title = nextTodo.title;
+                todo.done = nextTodo.done;
+            }
+        });
     }
 
     function handleDeleteTodo(todoId: number) {
-        const index = todos.findIndex(
-            (t) => t.id === todoId
-        );
-        todos.splice(index, 1);
+        setTodos(draft => {
+            const index = draft.findIndex(t => t.id === todoId);
+            if (index !== -1) {
+                draft.splice(index, 1);
+            }
+        });
     }
 
     return (
