@@ -13,7 +13,9 @@ export default function TrafficLight() {
     const [walk, setWalk] = useState(true);
 
     function handleClick() {
-        setWalk(!walk)
+        // Показываем alert перед обновлением состояния
+        alert(walk ? 'Следующая остановка' : 'Следующим будет идти');
+        setWalk(!walk);
     }
 
     return (
