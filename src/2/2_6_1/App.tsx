@@ -15,42 +15,43 @@ export default function Scoreboard() {
     });
 
     function handlePlusClick() {
-        player.score++;
+        // создаём новый объект с обновлённым score
+        setPlayer({
+            ...player,
+            score: player.score + 1
+        });
     }
 
     function handleFirstNameChange(e: any) {
+        // Сохраняем поле firstName через spread
         setPlayer({
             ...player,
-            firstName: e.target.value,
+            firstName: e.target.value
         });
     }
 
     function handleLastNameChange(e: any) {
+        // Сохраняем поле lastName через spread
         setPlayer({
-            lastName: e.target.value,
-        } as any);
+            ...player,
+            lastName: e.target.value
+        });
     }
 
     return (
         <>
             <label>
                 Score: <b>{player.score}</b>{' '}
-                <button onClick={handlePlusClick}>
-                    +1
-                </button>
+                <button onClick={handlePlusClick}>+1</button>
             </label>
             <label>
                 First name:
-                <input
-                    value={player.firstName}
-                    onChange={handleFirstNameChange}
+                <input value={player.firstName} onChange={handleFirstNameChange}
                 />
             </label>
             <label>
                 Last name:
-                <input
-                    value={player.lastName}
-                    onChange={handleLastNameChange}
+                <input value={player.lastName} onChange={handleLastNameChange}
                 />
             </label>
         </>
