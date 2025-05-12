@@ -7,7 +7,6 @@
     На этот раз исправьте мутацию, используя Immer. Для вашего удобства функция useImmer уже импортирована, поэтому вам нужно изменить переменную состояния shape, чтобы использовать ее.
 */
 
-import { useState } from 'react';
 import { useImmer } from 'use-immer';
 import Background from './Background';
 import Box from './Box';
@@ -16,24 +15,25 @@ export type Position = { x: number; y: number };
 
 const initialPosition = {
     x: 0,
-    y: 0,
+    y: 0
 };
 
 export default function Canvas() {
-    const [shape, setShape] = useState({
+    const [shape, setShape] = useImmer ({
         color: 'orange',
-        position: initialPosition,
+        position: { ...initialPosition } // Копия объекта
     });
 
     function handleMove(dx: number, dy: number) {
-        shape.position.x += dx;
-        shape.position.y += dy;
+        setShape(draft => {
+            draft.position.x += dx;
+            draft.position.y += dy;
+        });
     }
 
     function handleColorChange(e: any) {
-        setShape({
-            ...shape,
-            color: e.target.value,
+        setShape(draft => {
+            draft.color = e.target.value;
         });
     }
 
