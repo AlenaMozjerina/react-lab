@@ -18,8 +18,10 @@ export default function Chat(
         value={message}
         placeholder={'Chat to ' + contact.name}
         onChange={(e) => {
-          // TODO: dispatch edited_message
-          // (Read the input value from e.target.value)
+          dispatch({
+            type: 'edited_message',
+            message: e.target.value
+          });
         }}
       />
       <br />
