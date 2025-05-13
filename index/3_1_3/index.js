@@ -1,53 +1,63 @@
-function handleFormSubmit(e) {
+(function () {
+  const form = document.querySelector('#form');
+  const editButton = document.querySelector('#editButton');
+  const firstNameInput = document.querySelector('#firstNameInput');
+  const firstNameText = document.querySelector('#firstNameText');
+  const lastNameInput = document.querySelector('#lastNameInput');
+  const lastNameText = document.querySelector('#lastNameText');
+  const helloText = document.querySelector('#helloText');
+
+  const state = reactive({
+    isEditing: false,
+    firstName: 'John',
+    lastName: 'Doe'
+  }, render);
+
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    if (editButton.textContent === 'Edit Profile') {
-      editButton.textContent = 'Save Profile';
-      hide(firstNameText);
-      hide(lastNameText);
-      show(firstNameInput);
-      show(lastNameInput);
-    } else {
-      editButton.textContent = 'Edit Profile';
-      hide(firstNameInput);
-      hide(lastNameInput);
-      show(firstNameText);
-      show(lastNameText);
+    state.isEditing = !state.isEditing;
+  });
+
+  firstNameInput.addEventListener('input', e => {
+    state.firstName = e.target.value;
+  });
+
+  lastNameInput.addEventListener('input', e => {
+    state.lastName = e.target.value;
+  });
+
+  function render() {
+    const { isEditing, firstName, lastName } = state;
+
+    if (!isEditing) {
+      firstNameInput.value = firstName;
+      lastNameInput.value = lastName;
     }
+
+    firstNameText.textContent = firstName;
+    lastNameText.textContent = lastName;
+    helloText.textContent = `Hello, ${firstName} ${lastName}!`;
+
+    editButton.textContent = isEditing ? 'Save Profile' : 'Edit Profile';
+    toggleVisibility(firstNameInput, isEditing);
+    toggleVisibility(lastNameInput, isEditing);
+    toggleVisibility(firstNameText, !isEditing);
+    toggleVisibility(lastNameText, !isEditing);
   }
-  
-  function handleFirstNameChange() {
-    firstNameText.textContent = firstNameInput.value;
-    helloText.textContent = (
-      'Hello ' +
-      firstNameInput.value + ' ' +
-      lastNameInput.value + '!'
-    );
+
+  function toggleVisibility(element, show) {
+    element.style.display = show ? '' : 'none';
   }
-  
-  function handleLastNameChange() {
-    lastNameText.textContent = lastNameInput.value;
-    helloText.textContent = (
-      'Hello ' +
-      firstNameInput.value + ' ' +
-      lastNameInput.value + '!'
-    );
+
+  function reactive(initialState, render) {
+    return new Proxy(initialState, {
+      set(target, key, value) {
+        target[key] = value;
+        render();
+        return true;
+      }
+    });
   }
-  
-  function hide(el) {
-    el.style.display = 'none';
-  }
-  
-  function show(el) {
-    el.style.display = '';
-  }
-  
-  let form = document.getElementById('form');
-  let editButton = document.getElementById('editButton');
-  let firstNameInput = document.getElementById('firstNameInput');
-  let firstNameText = document.getElementById('firstNameText');
-  let lastNameInput = document.getElementById('lastNameInput');
-  let lastNameText = document.getElementById('lastNameText');
-  let helloText = document.getElementById('helloText');
-  form.onsubmit = handleFormSubmit;
-  firstNameInput.oninput = handleFirstNameChange;
-  lastNameInput.oninput = handleLastNameChange;
+
+  render();
+})();
