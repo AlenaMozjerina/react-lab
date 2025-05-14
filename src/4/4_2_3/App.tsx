@@ -8,10 +8,23 @@
     inline: 'center',
   });
 */
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function CatFriends() {
   const [index, setIndex] = useState(0);
+  const catRefs = useRef<HTMLImageElement[]>([]);
+
+  useEffect(() => {
+    const currentCat = catRefs.current[index];
+    if (currentCat) {
+      currentCat.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      });
+    }
+  }, [index]);
+
   return (
     <>
       <nav>
@@ -25,16 +38,13 @@ export default function CatFriends() {
           Next
         </button>
       </nav>
-      <div>
-        <ul>
+      <div style={{ overflow: 'auto', whiteSpace: 'nowrap' }}>
+        <ul style={{ display: 'flex', listStyle: 'none', padding: 0 }}>
           {catList.map((cat, i) => (
-            <li key={cat.id}>
+            <li key={cat.id} style={{ marginRight: '10px' }}>
               <img
-                className={
-                  index === i ?
-                    'active' :
-                    ''
-                }
+                ref={el => catRefs.current[i] = el!}
+                className={index === i ? 'active' : ''}
                 src={cat.imageUrl}
                 alt={'Cat #' + cat.id}
               />
