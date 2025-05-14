@@ -9,10 +9,11 @@ export default function MyInput(
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     }) {
 
-    const ref = useRef(null);
+    const ref = useRef<HTMLInputElement>(null);
 
-    // TODO: This doesn't quite work. Fix it.
-    // ref.current.focus()    
+    useEffect(() => {
+        ref.current?.focus();
+    }, []);  
 
     return (
         <input
