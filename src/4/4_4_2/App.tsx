@@ -5,17 +5,17 @@
   Ваша задача - удалить эффект, который пересчитывает список visibleTodos в компоненте TodoList. Однако, вам нужно убедиться, что getVisibleTodos() не повторно запускается (и поэтому не печатает никаких логов), когда вы вводите данные в input.
 */
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { initialTodos, createTodo, getVisibleTodos, Todo } from './todos.js';
+
 
 export default function TodoList() {
   const [todos, setTodos] = useState(initialTodos);
   const [showActive, setShowActive] = useState(false);
   const [text, setText] = useState('');
-  const [visibleTodos, setVisibleTodos] = useState<Todo[]>([]);
 
-  useEffect(() => {
-    setVisibleTodos(getVisibleTodos(todos, showActive));
+  const visibleTodos = useMemo(() => {
+    return getVisibleTodos(todos, showActive);
   }, [todos, showActive]);
 
   function handleAddClick() {
