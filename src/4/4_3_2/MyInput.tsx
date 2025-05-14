@@ -12,10 +12,10 @@ export default function MyInput(
     }) {
   const ref = useRef<HTMLInputElement>(null);
 
-  // TODO: call focus() only if shouldFocus is true.
   useEffect(() => {
-    ref.current?.focus();
-  }, []);
+    if (shouldFocus)
+      ref.current?.focus();
+  }, [shouldFocus]);
 
   return (
     <input
